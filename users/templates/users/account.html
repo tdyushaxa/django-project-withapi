@@ -1,0 +1,93 @@
+{% extends 'base.html' %} {% block content %}
+<div class="user__background">
+  <div class="container">
+    <div class="profile__box">
+      <div class="profile__box-left">
+        <a class="edit__btn" href="{% url 'edit-profile' %}"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+        <img class="box-left__image" src="{{profiles.profile_image.url}}" alt="devoloper picture" />
+        <h3 class="box-left__heading">{{profiles.name}}</h3>
+        <p class="box-left__text">{{profiles.short_intro}}</p>
+
+        {% if profile.location %}
+        <span>{{profiles.short_intro}}</span>
+
+        {% endif %}
+        <ul class="list">
+          {% if profiles.socail_github%}
+          <li class="list__item">
+            <a href="{{profiles.socail_github}}"><i class="fa-brands fa-github"></i></a>
+          </li>
+          {% endif %} {% if profiles.socail_twiter %}
+          <li class="list__item">
+            <a href="{{profiles.socail_twiter}}"><i class="fa-brands fa-twitter"></i></a>
+          </li>
+          {% endif %} {% if profiles.socail_linkedin %}
+          <li class="list__item">
+            <a href="{{profiles.socail_linkedin}}"><i class="fa-brands fa-linkedin"></i></a>
+          </li>
+
+          {% endif %} {% if profiles.socail_website %}
+          <li class="list__item">
+            <a href="{{profiles.socail_website}}"><i class="fa-solid fa-globe"></i></a>
+          </li>
+          {% endif %} {% if profiles.socail_youtube %}
+
+          <li class="list__item">
+            <a href="{{profiles.socail_youtube}}"><i class="fa-brands fa-youtube"></i></a>
+          </li>
+
+          {% endif %}
+        </ul>
+        <div class="send">
+          {% if request.user.profile.id != profiles.id%}
+          <a href="{% url 'send_messages' profiles.id %}" class="btn btn-info send__mesaages" type="submit">
+            Send message
+          </a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="profile__box-right">
+        <div class="about">
+          <h3 class="abbout__heading">Aboout Me</h3>
+          <p>{{profiles.bio}}</p>
+        </div>
+        <div class="user__skill">
+          <h3 class="user__skill__heading">Skill</h3>
+          <a href="{% url 'add-skill' %}">
+            <i class="fa-duotone fa-plus"></i> Add Skill</a>
+        </div>
+        <div class="user_skills">
+          {% for skill in skills %}
+          {% if skill.name %}
+          <h3 class="user_skills">{{skill.name}}</h3>
+          <div class="span">
+            <span>{{skill.description}}</span>
+            <div class="crud">
+              <a href="{% url 'edit-skill' skill.id %}"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+              <a href="{% url 'delete-skill' skill.id %}"><i class="fa-solid fa-trash"></i> Delete</a>
+            </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+        <div class="user__projects">
+          {% for profile in profiles.project_set.all %}
+          <div class="project__img">
+            <img class="picture" src="{{profile.image.url}}" alt="img" />
+            <div class="crud">
+              <a href="{% url 'update_project' profile.id %}"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+              <a href="{% url 'delete_project' profile.id %}"><i class="fa-solid fa-trash"></i> Delete</a>
+            </div>
+          </div>
+          <div class="text">
+            <h3>{{profile.title}}</h3>
+            <p>{{profile.description|slice:'150'}}</p>
+          </div>
+          {% endfor %}
+          <!-- end projects -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %} {% load crispy_forms_tags %} {% block content %}
+<div class="profile__detail__background">
+  <div class="container">
+    <div class="form__box__top">
+        <h1 class="form__heading">Add Skill</h1>
+        <a class="form__back" href="{% url 'account' %}"><i class="fa-solid fa-chevron-left"></i>back</a>
+
+    </div>
+    <div class="form col-7">
+      <form action="{% url 'add-skill' %}" method="post">
+        {% csrf_token %} {{form|crispy}}
+        <button class="btn btn-primary" type="submit">Add</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

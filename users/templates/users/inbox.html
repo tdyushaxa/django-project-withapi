@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="background__inbox">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+
+                {% if messages %}
+                <h3 class="p-3">New Massages({{ unread_messages }})</h3>
+                <div class="inbox__box">
+                    {% for message in messages %}
+                    {% if message.is_read == False %}
+                    <a class="inbox__link" href="{% url 'message' message.id %}">
+                        <div class="massages">
+                            <h3>{{ message.name }}</h3>
+                            <h3>{{ message.subject }}</h3>
+                            <h3>{{ message.created_at }}</h3>
+                        </div>
+                    </a>
+                    {% else %}
+                    <a class="inbox__link" href="{% url 'message' message.id %}">
+                        <div class="massages">
+                            <h3 class="opacityy">{{ message.name }}</h3>
+                            <h3 class="opacityy">{{ message.subject }}</h3>
+                            <h3 class="opacityy">{{ message.created_at }}</h3>
+                        </div>
+                    </a>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% else %}
+                <h3 class="font-monospace p-5">Sizda xabarlar mavjud emas </h3>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,120 @@
+{% extends 'base.html' %} {% block content %}
+<div class="profile__detail__background">
+  <div class="container">
+    <div class="profile__box">
+      <div class="profile__box-left">
+        <img
+          class="box-left__image"
+          src="{{profiles.profile_image.url}}"
+          alt="devoloper picture"
+        />
+        <h3 class=""></h3>
+        <h3 class="box-left__heading">{{profiles.name}}</h3>
+        <p class="box-left__text">{{profiles.short_intro}}</p>
+
+        {% if profile.location %}
+        <span>{{profiles.short_intro}}</span>
+
+        {% endif %}
+        <ul class="list">
+          {% if profiles.socail_github%}
+          <li class="list__item">
+            <a href="{{profiles.socail_github}}"
+              ><i class="fa-brands fa-github"></i
+            ></a>
+          </li>
+          {% endif %} {% if profiles.socail_twiter %}
+          <li class="list__item">
+            <a href="{{profiles.socail_twiter}}"
+              ><i class="fa-brands fa-twitter"></i
+            ></a>
+          </li>
+          {% endif %} {% if profiles.socail_linkedin %}
+          <li class="list__item">
+            <a href="{{profiles.socail_linkedin}}"
+              ><i class="fa-brands fa-linkedin"></i
+            ></a>
+          </li>
+
+          {% endif %} {% if profiles.socail_website %}
+          <li class="list__item">
+            <a href="{{profiles.socail_website}}"
+              ><i class="fa-solid fa-globe"></i
+            ></a>
+          </li>
+          {% endif %} {% if profiles.socail_youtube %}
+
+          <li class="list__item">
+            <a href="{{profiles.socail_youtube}}"
+              ><i class="fa-brands fa-youtube"></i
+            ></a>
+          </li>
+
+          {% endif %}
+        </ul>
+        <div class="send">
+          {% if request.user.profile.id != profiles.id %}
+          <a href="{% url 'send_messages' profiles.id %}" class="btn btn-info send__mesaages" type="submit">
+            Send message
+          </a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="profile__box-right">
+        <div class="about">
+          <h3 class="abbout__heading">Aboout Me</h3>
+          <p>{{profiles.bio}}</p>
+        </div>
+        <div class="profile__skills">
+          <h3>Top skill</h3>
+          <div class="top__skills">
+            {% for topskill in topskills %}
+            <div class="skill_set">
+              <h3 class="skill_set-heading">{{topskill.name}}</h3>
+              <p class="skill_set-text">{{topskill.description}}</p>
+            </div>
+            {% endfor %}
+          </div>
+          <h3>Other skills</h3>
+          <div class="other__skills">
+             {% for otherskil in otherskill %} 
+             {% if otherskil.name %}
+                <b class="other__skils">{{otherskil.name}}</b>
+            {% endif %} {% endfor %} 
+          </div> 
+          
+        </div>
+
+        <div class="projects">
+          <h3>Projects</h3>
+          <div class="row row-cols-1 row-cols-md-2 g-4">
+            {% for project in profiles.project_set.all %}
+            <div class="col mb-5">
+              <div class="card">
+                <img
+                  src="{{project.image.url}}"
+                  class="card-img-top"
+                  alt="{{project.title}}"
+                />
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <a href="{% url 'detail' project.id %}"
+                      >{{project.title}}</a
+                    >
+                  </h5>
+                  <small class="card__blue">By {{project.owner.name}}</small>
+                  <p class="card-text">{{project.description|slice:"100"}}</p>
+                  {% for tag in project.tags.all %}
+                  <span class="footer__tag">{{tag}}</span>{% endfor %}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+    <div class="row height d-flex justify-content-center align-items-center">
+        <div class="col-md-8">
+            <div class="search">
+                <form action="{% url 'home' %}" method="get">
+                    <i class="fa fa-search"></i>
+                    <input type="text" class="form-control" name="q" value='{{ search_query }}'
+                        placeholder="Have a question? Ask Now" />
+                    <button class="btn btn-primary">Search</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for project in projects %}
+        <div class="col">
+            <div class="card">
+                <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}" />
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{% url 'detail' project.id %}">{{ project.title }}</a>
+                    </h5>
+                    <small class="card__blue">By {{ project.owner.name }}</small>
+                    <p class="card-text">{{ project.description|slice:"100" }}</p>
+                    {% for tag in project.tags.all %}
+                    <span class="footer__tag">{{ tag }}</span>{% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% if projects.has_other_pages %}
+    <div class="container">
+        <ul class="pagination container m-5">
+            {% if projects.has_previous %}
+            <li class="page-item ">
+                <a class="page-link" href="?page={{ projects.previous_page_number }}" aria-disabled="true">Previous</a>
+            </li>
+            {% endif %}
+            {% for page in paginator.page_range %}
+            {% if page == projects.number %}
+            <li class="page-item active"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+            {% else %}
+            <li class="page-item "><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+            {% endif %}
+            {% endfor %}
+            {% if projects.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ projects.next_page_number }}">Next</a>
+            </li>
+
+            {% endif %}
+
+        </ul>
+
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

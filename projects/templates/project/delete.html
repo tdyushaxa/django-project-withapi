@@ -1,0 +1,19 @@
+{% extends "base.html" %} {% load crispy_forms_tags %} {% block content %}
+    <div class="profile__detail__background">
+        <div class="container margin_form">
+            <div class="form__box__top">
+                <h1 class="form__heading">Delete Project</h1>
+                <a class="form__back" href="{% url 'home' %}"><i class="fa-solid fa-chevron-left"></i>back</a>
+            </div>
+            <div class="form col-7 ">
+                <form action="{% url 'delete_project'  project.id %}" method="post">
+                    {% csrf_token %} {{ form|crispy }}
+                    <p> if your accept this project delete. <b>{{ project.title }}</b></p>
+                    <button class="btn btn-primary" type="submit">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="background">
+        <div class="container">
+            <div class="detail__box">
+                <div class="box__left">
+                    <div class="left__tools">
+                        <h3 class="tools__heading">Tools & Stacks</h3>
+                        {% for tag in project.tags.all %}
+                            <span class="tools__tag">
+                        {{ tag }}
+                    </span>
+                        {% endfor %}
+
+                    </div>
+                </div>
+                <div class="box__right">
+                    <div class="right__detail">
+                        <div class="img">
+                            <img class="detail__image" src="{{ project.image.url }}" alt="{{ project.title }}">
+                        </div>
+                        <div class="detail">
+                            <small class="detail__owner">By {{ project.owner.name }}</small>
+                            <h3 class="detail__heading">{{ project.title }}</h3>
+                            <h4 class="detail__heading">About the project</h4>
+                            <p class="detail__text">{{ project.description }}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="feedback">
+                        <h3 class="fedback__heading">Feadback</h3>
+                        <span class="feedback__votes">{{ project.vote_ratio }}% Positive Feedback ({{ project.vote_total }}) Votes</span>
+                    </div>
+                    {% if user.is_authenticated %}
+                    <div class="from p-3">
+                        <h3 class="font-monospace">Comments</h3>
+                        <form action="{% url 'detail' project.id %}" method="post">{% csrf_token %}
+                            {{ form|crispy }}
+                            <button class="btn btn-success" type="submit">Add comment</button>
+                        </form>
+                    </div>
+                    {% endif %}
+                    <h3 class="font-monospace p-3">All Comments ({{ count }})</h3>
+                    <div class="comments p-3">
+                        {% for comment in project.review_set.all %}
+                            <div class="values">
+                                <img class="comments__image" src="{{ comment.owner.profile_image.url }}"
+                                     alt="User Image">
+                                <div class="value">
+                                    <b>{{ comment.owner.name }}</b>
+                                    {% if comment.owner.user  == request.user %}
+                                        <a href="{% url 'update_review' project.id comment.id %}"><i class="fas fa-edit"></i></a>
+                                        <a href="{% url 'delete_review' project.id comment.id %}"><i class="fa-solid fa-trash"></i></a>
+                                    {% endif %}
+                                    <p class="font-monospace">{{ comment.body }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+

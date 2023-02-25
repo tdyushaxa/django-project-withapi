@@ -1,0 +1,20 @@
+{% extends "base.html" %} {% load crispy_forms_tags %} {% block content %}
+<div class="profile__detail__background">
+  <div class="container">
+    <div class="messages_box">
+        <div class="form__box__top">
+            <h1 class="form__heading">Messages</h1>
+            <a class="form__back" href="{% url 'inbox' %}"><i class="fa-solid fa-chevron-left"></i>back</a>
+        </div>
+        <div class="subjects">
+          <h1 class="font-monospace mb-2">{{message.subject}}</h1>
+            <small class="messages_color">Name: {{ message.name }}</small>
+            <p class="fw-light fst-italic">{{ message.created_at }}</p>
+            <p>{{ message.body|linebreaksbr }}</p>
+        </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

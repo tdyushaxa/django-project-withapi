@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+    <div class="send_message_back">
+        <div class="container">
+            <div class="form__box__top">
+                <h1 class="form__heading">Add Skill</h1>
+                <a class="form__back" href="{% url 'profile-detail' profile.id %}"><i class="fa-solid fa-chevron-left"></i>back</a>
+            </div>
+            <div class="col-6 m-auto ">
+                <form action="{% url 'send_messages' profile.id %}" method="Post">  {% csrf_token %}
+                    {{ form|crispy }}
+                    <button class="btn btn-outline-primary" type="submit">send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+{% endblock content %}
+    
